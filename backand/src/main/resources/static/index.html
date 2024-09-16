@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang = "en" >
+<head >
+    <meta charset = "UTF-8" >
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0" >
+    <title >OMDB API Movie Search</title >
+    <style >
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .search-bar {
+            margin: 20px 0;
+        }
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background: #555;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            text-align: left;
+            width: 300px;
+            vertical-align: top;
+        }
+        .card img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+    </style >
+</head >
+<body >
+    <header >
+        <div class = "container" >
+            <h1 >OMDB API Movie Search</h1 >
+        </div >
+    </header >
+    <div class = "container" >
+        <div class = "search-bar" >
+            <input type = "text" id = "movieTitle" placeholder = "Enter movie title" >
+            <button onclick = "searchMovie()" >Search</button >
+        </div >
+        <div id = "results" ></div >
+    </div >
+
+    <script >
+        async function searchMovie() {
+    const title = document.getElementById('movieTitle').value;
+    if (!title) {
+        alert('Please enter a movie title.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8888/api/movie?title=${encodeURIComponent(title)}`);
+        const data = await response.json();
+
+        const results = document.getElementById('results');
+        results.innerHTML = '';
+
+        if (data && data.Response === 'True') {
+            const movies = data.Search;
+            if (movies && movies.length > 0) {
+                movies.forEach(movie => {
+                    const card = `
+                        <div class="card">
+                            <img src="${movie.Poster}" alt="${movie.Title} Poster">
+                            <h3>${movie.Title}</h3>
+                            <p><strong>Year:</strong> ${movie.Year}</p>
+                        </div>
+                    `;
+                    results.innerHTML += card;
+                });
+            } else {
+                results.innerHTML = '<p>No movies found. Please try another title.</p>';
+            }
+        } else {
+            results.innerHTML = '<p>No movies found. Please try another title.</p>';
+        }
+    } catch (error) {
+        console.error('Error fetching movie data:', error);
+        alert('An error occurred while fetching movie data.');
+    }
+}
+
+    </script >
+</body >
+</html >
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang = "en" >-->
+<!--<head >-->
+<!--  <meta charset = "UTF-8" >-->
+<!--  <meta name = "viewport" content = "width=device-width, initial-scale=1.0" >-->
+<!--    <title >OMDB API Movie Search</title >-->
+<!--    <style >-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background-color: #f4f4f4;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .container {-->
+<!--            width: 80%;-->
+<!--            margin: auto;-->
+<!--            overflow: hidden;-->
+<!--        }-->
+<!--        header {-->
+<!--            background: #333;-->
+<!--            color: #fff;-->
+<!--            padding: 10px 0;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--        header h1 {-->
+<!--            margin: 0;-->
+<!--        }-->
+<!--        .search-bar {-->
+<!--            margin: 20px 0;-->
+<!--        }-->
+<!--        .search-bar input[type="text"] {-->
+<!--            padding: 10px;-->
+<!--            width: 300px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!--        .search-bar button {-->
+<!--            padding: 10px 20px;-->
+<!--            border: none;-->
+<!--            background: #333;-->
+<!--            color: #fff;-->
+<!--            border-radius: 5px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .search-bar button:hover {-->
+<!--            background: #555;-->
+<!--        }-->
+<!--        .card {-->
+<!--            background: #fff;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 5px;-->
+<!--            display: inline-block;-->
+<!--            margin: 10px;-->
+<!--            padding: 20px;-->
+<!--            text-align: left;-->
+<!--            width: 300px;-->
+<!--            vertical-align: top;-->
+<!--        }-->
+<!--        .card img {-->
+<!--            max-width: 100%;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!--        .card h3 {-->
+<!--            margin-top: 0;-->
+<!--        }-->
+<!--    </style >-->
+<!--</head >-->
+<!--<body >-->
+<!--    <header >-->
+<!--        <div class = "container" >-->
+<!--            <h1 >OMDB API Movie Search</h1 >-->
+<!--        </div >-->
+<!--    </header >-->
+<!--    <div class = "container" >-->
+<!--        <div class = "search-bar" >-->
+<!--            <input type = "text" id = "movieTitle" placeholder = "Enter movie title" >-->
+<!--            <button onclick = "searchMovie()" >Search</button >-->
+<!--        </div >-->
+<!--        <div id = "results" ></div >-->
+<!--    </div >-->
+
+<!--    <script >-->
+<!--        async function searchMovie() {-->
+<!--            const title = document.getElementById('movieTitle').value;-->
+<!--            if (!title) {-->
+<!--                alert('Please enter a movie title.');-->
+<!--                return;-->
+<!--            }-->
+
+<!--            try {-->
+<!--                const response = await fetch(`http://localhost:8888/api/movie?title=${encodeURIComponent(title)}`);-->
+<!--                const data = await response.json();-->
+
+<!--                const results = document.getElementById('results');-->
+<!--                results.innerHTML = '';-->
+
+<!--                if (data && data.Response === 'True') {-->
+<!--                    const card = `-->
+<!--                        <div class="card">-->
+<!--                            <img src="${data.Poster}" alt="${data.Title} Poster">-->
+<!--                            <h3>${data.Title}</h3>-->
+<!--                            <p><strong>Year:</strong> ${data.Year}</p>-->
+<!--                            <p><strong>Rated:</strong> ${data.Rated}</p>-->
+<!--                            <p><strong>Released:</strong> ${data.Released}</p>-->
+<!--                            <p><strong>Genre:</strong> ${data.Genre}</p>-->
+<!--                            <p><strong>Director:</strong> ${data.Director}</p>-->
+<!--                            <p><strong>Actors:</strong> ${data.Actors}</p>-->
+<!--                            <p><strong>Plot:</strong> ${data.Plot}</p>-->
+<!--                        </div>-->
+<!--                    `;-->
+<!--                    results.innerHTML = card;-->
+<!--                } else {-->
+<!--                    results.innerHTML = '<p>No movie found. Please try another title.</p>';-->
+<!--                }-->
+<!--            } catch (error) {-->
+<!--                console.error('Error fetching movie data:', error);-->
+<!--                alert('An error occurred while fetching movie data.');-->
+<!--            }-->
+<!--        }-->
+<!--    </script >-->
+<!--</body >-->
+<!--</html >-->

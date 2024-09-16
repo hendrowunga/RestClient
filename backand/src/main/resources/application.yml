@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: backand
+  resources:
+    static-locations: classpath:/static/
+
+
+omdbapi:
+  url: https://www.omdbapi.com/
+  apiKey: c25b75b7  # Gantilah dengan API Key dari OMDB
+
+server:
+  port: 8888
