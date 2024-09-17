@@ -1,4 +1,4 @@
-#  SPRING BOOT
+#  SPRING BOOT 3.0
 ## OMDB API Movie Search
     
 ![](sc/bukti.png)
